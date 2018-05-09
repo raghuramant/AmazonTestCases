@@ -19,9 +19,10 @@ public class AmazonPageAutomation extends Utilities {
 	// public
 
 	
-
+	static Actions act = new Actions(driver);
+	
 	public static void switchSearchToLaptop() throws InterruptedException {
-		Actions act = new Actions(driver);
+		
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		WebElement categoryElement = driver.findElement(By.id("nav-link-shopall"));
@@ -91,6 +92,65 @@ public class AmazonPageAutomation extends Utilities {
 			}
 		}
 		return a;
+		
+	}
+	
+	/*public static void navToSubMenu(String mainMenu, String subMenu) throws InterruptedException{
+		
+		String mainMenuRef = "//span[text()='$']";
+		String mainMenuLocator = mainMenuRef.replace("$", mainMenu);
+		WebElement mainMenuElement = driver.findElement(By.xpath(mainMenuLocator)); 
+		
+		
+		WebElement categoryElement = driver.findElement(By.id("nav-link-shopall"));
+		act.moveToElement(categoryElement).build().perform();
+		Thread.sleep(500);
+		act.moveToElement(mainMenuElement).build().perform();
+		
+		Thread.sleep(3000);
+		
+		String subMenuRef = "//a/span[text()='$']";
+		String subMenuLocator = subMenuRef.replace("$", subMenu);
+		System.out.println(subMenuLocator);
+		WebElement subMenuElement = driver.findElement(By.xpath(subMenuLocator));
+		
+		act.moveToElement(subMenuElement).click().build().perform();
+		Thread.sleep(3000);
+		
+	}*/
+	
+public static void navToSubMenuComplex(String mainMenu, String subMenu) throws InterruptedException{
+		
+		String mainMenuRef = "//span[text()='$']";
+		String mainMenuLocator = mainMenuRef.replace("$", mainMenu);
+		WebElement mainMenuElement = driver.findElement(By.xpath(mainMenuLocator)); 
+		WebElement reqdElement = null;
+		
+		WebElement categoryElement = driver.findElement(By.id("nav-link-shopall"));
+		act.moveToElement(categoryElement).build().perform();
+		Thread.sleep(500);
+		act.moveToElement(mainMenuElement).build().perform();
+		
+		Thread.sleep(3000);
+		
+		String subMenuRef = "//a/span[text()='$']";
+		String subMenuLocator = subMenuRef.replace("$", subMenu);
+		System.out.println(subMenuLocator);
+		List<WebElement> subMenuElements = driver.findElements(By.xpath(subMenuLocator));
+		for (WebElement ele : subMenuElements) {
+			boolean dispStatus = ele.isDisplayed();
+			if(dispStatus){
+				reqdElement = ele;
+				break;
+			}
+			
+		}
+		
+		act.moveToElement(reqdElement).click().build().perform();
+		Thread.sleep(3000);
+		
+		
+		
 		
 	}
 
